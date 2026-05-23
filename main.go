@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"runtime/debug"
 	"syscall"
 
 	"github.com/admin8800/s-ui/app"
@@ -11,6 +12,10 @@ import (
 )
 
 func runApp() {
+	// Set Go memory soft limit to 384MB — prevents unbounded heap growth
+	// that triggers swap on small VPSs. Go may briefly exceed this but GC
+	// will bring it back under control. Adjust via GOMEMLIMIT env var.
+	debug.SetMemoryLimit(384 * 1024 * 1024)
 	app := app.NewApp()
 
 	err := app.Init()

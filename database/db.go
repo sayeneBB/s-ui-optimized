@@ -55,7 +55,7 @@ func OpenDB(dbPath string) error {
 	if strings.Contains(dbPath, "?") {
 		sep = "&"
 	}
-	dsn := dbPath + sep + "_busy_timeout=10000&_journal_mode=WAL"
+	dsn := dbPath + sep + "_busy_timeout=10000&_journal_mode=WAL&_journal_size_limit=4194304&_mmap_size=4194304&_cache_size=-2000"
 	db, err = gorm.Open(sqlite.Open(dsn), c)
 	if err != nil {
 		return err
@@ -65,8 +65,8 @@ func OpenDB(dbPath string) error {
 	if err != nil {
 		return err
 	}
-	sqlDB.SetMaxOpenConns(25)
-	sqlDB.SetMaxIdleConns(5)
+	sqlDB.SetMaxOpenConns(3)
+	sqlDB.SetMaxIdleConns(1)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	if config.IsDebug() {

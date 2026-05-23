@@ -21,6 +21,26 @@ Note: The original alireza0/s-ui project has been blocked and removed by GitHub.
 | 订阅链接（link/json/clash + info） | :heavy_check_mark: |
 | 深色/浅色主题 | :heavy_check_mark: |
 | API 接口 | :heavy_check_mark: |
+|
+| 内存优化 | :heavy_check_mark: |
+|
+## 🚀 v1.4.2 新增：内存优化
+
+本项目已针对小内存 VPS（512MB 及以上）进行了内存优化，解决了原版长期运行后内存持续增长的问题：
+
+| 优化项 | 说明 |
+|-------|------|
+| **SQLite 内存限制** | WAL 文件 ≤4MB，页缓存 ≤2MB，mmap ≤4MB，防止数据库内存无限制增长 |
+| **Go 内存软上限** | 堆内存上限 384MB，超限时提前 GC，避免触发系统 swap |
+| **统计写入降频** | 从 10s 一次改为 60s 一次，减少 83% 的不必要事务 |
+| **连接池精简** | SQLite 最大连接数从 25 降至 3，空闲连接从 5 降至 1 |
+| **内存监控** | 每小时自动报告 goroutine 数量、堆内存、GC 状态，异常时自动告警 |
+
+> 💡 如果 VPS 内存大于 1GB，可通过环境变量调整软上限：
+> ```sh
+> export GOMEMLIMIT=512MiB   # 改为 512MB
+> systemctl restart s-ui
+> ```
 
 ## 支持平台
 | 平台 | 架构 | 状态 |
@@ -41,11 +61,11 @@ Note: The original alireza0/s-ui project has been blocked and removed by GitHub.
 
 ### Linux/macOS
 ```sh
-bash <(curl -Ls https://raw.githubusercontent.com/admin8800/s-ui/main/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/sayeneBB/s-ui/main/install.sh)
 ```
 
 ### Windows
-1. 从 [GitHub Releases](https://github.com/admin8800/s-ui/releases/latest) 下载最新 Windows 版本。
+1. 从 [GitHub Releases](https://github.com/sayeneBB/s-ui/releases/latest) 下载最新 Windows 版本。
 2. 解压 ZIP 文件。
 3. 以管理员身份运行 `install-windows.bat`。
 4. 按照安装向导操作。
@@ -58,8 +78,8 @@ bash <(curl -Ls https://raw.githubusercontent.com/admin8800/s-ui/main/install.sh
 ## 手动安装
 
 ### Linux/macOS
-1. 根据你的系统和架构，从 GitHub 获取最新版本 S-UI：[https://github.com/admin8800/s-ui/releases/latest](https://github.com/admin8800/s-ui/releases/latest)
-2. **可选：** 获取最新版 `s-ui.sh`：[https://raw.githubusercontent.com/admin8800/s-ui/main/s-ui.sh](https://raw.githubusercontent.com/admin8800/s-ui/main/s-ui.sh)
+1. 根据你的系统和架构，从 GitHub 获取最新版本 S-UI：[https://github.com/sayeneBB/s-ui/releases/latest](https://github.com/sayeneBB/s-ui/releases/latest)
+2. **可选：** 获取最新版 `s-ui.sh`：[https://raw.githubusercontent.com/sayeneBB/s-ui/main/s-ui.sh](https://raw.githubusercontent.com/sayeneBB/s-ui/main/s-ui.sh)
 3. **可选：** 将 `s-ui.sh` 复制到 `/usr/bin/`，并执行 `chmod +x /usr/bin/s-ui`。
 4. 将 s-ui tar.gz 文件解压到你选择的目录，并进入解压后的目录。
 5. 将 `*.service` 文件复制到 `/etc/systemd/system/`，然后执行 `systemctl daemon-reload`。
@@ -67,7 +87,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/admin8800/s-ui/main/install.sh
 7. 使用 `systemctl enable sing-box --now` 启动 sing-box 服务。
 
 ### Windows
-1. 从 GitHub 获取最新 Windows 版本：[https://github.com/admin8800/s-ui/releases/latest](https://github.com/admin8800/s-ui/releases/latest)
+1. 从 GitHub 获取最新 Windows 版本：[https://github.com/sayeneBB/s-ui/releases/latest](https://github.com/sayeneBB/s-ui/releases/latest)
 2. 下载适合的 Windows 包，例如 `s-ui-windows-amd64.zip`。
 3. 将 ZIP 文件解压到你选择的目录。
 4. 以管理员身份运行 `install-windows.bat`。
@@ -108,7 +128,7 @@ curl -fsSL https://get.docker.com | sh
 ```shell
 services:
   s-ui:
-    image: ghcr.io/admin8800/s-ui
+    image: ghcr.io/sayeneBB/s-ui
     container_name: s-ui
     hostname: "s-ui"
     network_mode: host
@@ -132,13 +152,13 @@ docker run -itd \
     -v $PWD/cert/:/root/cert/ \
     --name s-ui \
     --restart=unless-stopped \
-    ghcr.io/admin8800/s-ui
+    ghcr.io/sayeneBB/s-ui
 ```
 
 > 自行构建镜像
 
 ```shell
-git clone https://github.com/admin8800/s-ui
+git clone https://github.com/sayeneBB/s-ui
 docker build -t s-ui .
 ```
 
@@ -157,7 +177,7 @@ docker build -t s-ui .
 ### 克隆仓库
 ```shell
 # 克隆仓库
-git clone https://github.com/admin8800/s-ui
+git clone https://github.com/sayeneBB/s-ui
 ```
 
 ### - 前端
