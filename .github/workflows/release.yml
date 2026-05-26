@@ -204,6 +204,15 @@ jobs:
           echo "待上传的文件："
           ls -la release-assets/
           echo "文件数量：$(ls release-assets/ | wc -l)"
+      # ===== 添加这个调试步骤 =====
+      - name: 调试 - 检查令牌环境
+        run: |
+          echo "令牌长度: ${#RELEASE_TOKEN}"
+          echo "令牌前缀: $(echo $RELEASE_TOKEN | cut -c1-10)..."
+          echo "环境变量已设置: $([ -n "$RELEASE_TOKEN" ] && echo "是" || echo "否")"
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      # ===== 调试步骤结束 =====
 
       # 关键修复：使用 PAT 而不是 GITHUB_TOKEN
       - name: 发布到当前仓库 Release
