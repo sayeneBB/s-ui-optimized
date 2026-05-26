@@ -173,8 +173,7 @@ jobs:
     needs: build-linux
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 发布 Release 需要
-      deployments: write
+      contents: write
     steps:
       - name: 规范化发布标签
         id: vars
@@ -192,12 +191,12 @@ jobs:
           path: release-assets
           merge-multiple: true
 
-       - name: 发布到当前仓库 Release
-         uses: softprops/action-gh-release@v2
-         with:
-           tag_name: ${{ steps.vars.outputs.tag }}
-           name: s-ui ${{ steps.vars.outputs.tag }}
-           target_commitish: ${{ github.sha }}
-           token: ${{ secrets.PAT_TOKEN }}
-           fail_on_unmatched_files: true
-           files: release-assets/*
+      - name: 发布到当前仓库 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: s-ui ${{ steps.vars.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
+          files: release-assets/*
