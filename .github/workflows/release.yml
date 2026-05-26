@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 env:
-  NODE_VERSION: "25"
+  NODE_VERSION: "22"
   CRONET_GO_VERSION: "2fef65f9dba90ddb89a87d00a6eb6165487c10c1"
   CRONET_GO_REPO: https://github.com/sagernet/cronet-go.git
   BOOTLIN_BASE_URL: https://toolchains.bootlin.com/downloads/releases/toolchains
@@ -23,13 +23,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出仓库
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 1
 
       - name: 设置 Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
@@ -42,7 +42,7 @@ jobs:
           npm run build
 
       - name: 上传前端构建产物
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-dist
           path: frontend/dist/
@@ -65,16 +65,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出仓库
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v4
 
       - name: 下载前端构建产物
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           name: frontend-dist
           path: web/html
 
       - name: 设置 Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           cache: false
           go-version-file: go.mod
@@ -162,7 +162,7 @@ jobs:
         run: tar -zcvf s-ui-linux-${{ matrix.platform }}.tar.gz s-ui
 
       - name: 上传构建产物
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: s-ui-linux-${{ matrix.platform }}
           path: ./s-ui-linux-${{ matrix.platform }}.tar.gz
@@ -183,14 +183,14 @@ jobs:
           esac
 
       - name: 下载 Linux 构建产物
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           pattern: s-ui-linux-*
           path: release-assets
           merge-multiple: true
 
       - name: 发布到当前仓库 Release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.vars.outputs.tag }}
           name: s-ui ${{ steps.vars.outputs.tag }}

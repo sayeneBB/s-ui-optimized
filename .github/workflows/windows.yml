@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 env:
-  NODE_VERSION: "25"
+  NODE_VERSION: "22"
   TAGS: "with_quic,with_grpc,with_utls,with_acme,with_gvisor,with_naive_outbound,with_purego,badlinkname,tfogo_checklinkname0,with_tailscale"
   LIBCRONET_BASE_URL: "https://github.com/SagerNet/cronet-go/releases/latest/download"
 
@@ -22,13 +22,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出仓库
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 1
 
       - name: 设置 Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
@@ -42,7 +42,7 @@ jobs:
           npm run build
 
       - name: 上传前端构建产物
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-dist
           path: frontend/dist
@@ -60,16 +60,16 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - name: 检出仓库
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v4
 
       - name: 下载前端构建产物
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           name: frontend-dist
           path: web/html
 
       - name: 设置 Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           cache: false
           go-version-file: go.mod
@@ -114,7 +114,7 @@ jobs:
           zip -r "s-ui-windows-${{ matrix.arch }}.zip" s-ui-windows
 
       - name: 上传构建产物
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: s-ui-windows-${{ matrix.arch }}
           path: ./s-ui-windows-${{ matrix.arch }}.zip
@@ -135,14 +135,14 @@ jobs:
           esac
 
       - name: 下载 Windows 构建产物
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@v4
         with:
           pattern: s-ui-windows-*
           path: release-assets
           merge-multiple: true
 
       - name: 发布到当前仓库 Release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.vars.outputs.tag }}
           name: s-ui ${{ steps.vars.outputs.tag }}
