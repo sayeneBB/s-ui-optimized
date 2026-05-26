@@ -167,11 +167,13 @@ jobs:
           path: ./s-ui-linux-${{ matrix.platform }}.tar.gz
           retention-days: 1
 
-  publish-linux:
-    name: 发布 Linux 产物
-    needs: build-linux
-    runs-on: ubuntu-latest
-    steps:
+publish-linux:
+  name: 发布 Linux 产物
+  needs: build-linux
+  runs-on: ubuntu-latest
+  permissions:
+    contents: write
+  steps:
       - name: 规范化发布标签
         id: vars
         run: |
