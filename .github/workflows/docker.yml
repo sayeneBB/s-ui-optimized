@@ -22,8 +22,6 @@ jobs:
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: 设置 QEMU
         uses: docker/setup-qemu-action@v3

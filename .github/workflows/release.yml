@@ -25,7 +25,6 @@ jobs:
       - name: 检出仓库
         uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 1
 
       - name: 设置 Node.js
