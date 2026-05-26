@@ -129,8 +129,14 @@
                 <v-row>
                   <v-col cols="4">{{ $t('main.info.running') }}</v-col>
                   <v-col cols="8">
-                    <v-chip density="compact" color="success" variant="flat" v-if="tilesData.sbd?.running">{{ $t('yes') }}</v-chip> 
-                    <v-chip density="compact" color="error" variant="flat" v-else>{{ $t('no') }}</v-chip>
+                    <v-chip density="compact" color="success" variant="flat" v-if="tilesData.sbd?.running">
+                      <span class="pulse-glow-success" style="width: 8px; height: 8px; margin-inline-end: 6px;"></span>
+                      {{ $t('yes') }}
+                    </v-chip> 
+                    <v-chip density="compact" color="error" variant="flat" v-else>
+                      <span class="pulse-glow-error" style="width: 8px; height: 8px; margin-inline-end: 6px;"></span>
+                      {{ $t('no') }}
+                    </v-chip>
                     <v-chip density="compact" color="transparent" v-if="tilesData.sbd?.running && !loading" style="cursor: pointer;" @click="restartSingbox()">
                       <v-tooltip activator="parent" location="top">
                         {{ $t('actions.restartSb') }}

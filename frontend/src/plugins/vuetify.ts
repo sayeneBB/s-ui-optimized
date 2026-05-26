@@ -1,7 +1,7 @@
 /**
  * plugins/vuetify.ts
  *
- * Framework documentation: https://vuetifyjs.com`
+ * Framework documentation: https://vuetifyjs.com
  */
 
 // Styles
@@ -32,18 +32,27 @@ export default createVuetify({
     },
   },
   theme: {
-    defaultTheme: localStorage.getItem('theme') ?? 'system',
+    defaultTheme: localStorage.getItem('theme') ?? 'dark', // 默认设为超炫酷的暗黑玻璃模式
     themes: {
       light: {
         colors: {
+          primary: '#00B0FF',
+          background: '#F4F6F9',
+          surface: '#FFFFFF',
           error: '#FF5252',
-          background: colors.grey.lighten4,
         },
       },
       dark: {
+        dark: true,
         colors: {
-          primary: colors.blue.darken4,
-          error: colors.red.accent3,
+          primary: '#00F0FF',     // 激光霓虹蓝 (Neon Cyan)
+          secondary: '#bf5af2',   // 激光霓虹紫 (Laser Purple)
+          background: '#080b11',  // 深空底色 (Deep Slate Black)
+          surface: '#101420',     // 玻璃卡片底板 (Translucent Glass Slate)
+          success: '#00E676',     // 呼吸状态绿
+          warning: '#FF9100',     // 呼吸警示橙
+          error: '#FF5252',       // 报错珊瑚红
+          info: '#00B0FF',        // 天空蔚蓝
         },
       },
     },

@@ -27,6 +27,7 @@ import Vue3PersianDatetimePicker from 'vue3-persian-datetime-picker'
 import { createNotivue } from 'notivue'
 import 'notivue/notification.css'
 import 'notivue/animations.css'
+import '@/styles/glassmorphism.css'
 const notivue = createNotivue({
   position: 'bottom-center',
   limit: 4,

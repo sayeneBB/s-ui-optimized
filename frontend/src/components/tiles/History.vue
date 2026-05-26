@@ -23,7 +23,9 @@ ChartJS.register(
   Title,
   Filler
 )
-ChartJS.defaults.font.family = 'Vazirmatn'
+ChartJS.defaults.font.family = 'Outfit, Inter, sans-serif'
+ChartJS.defaults.color = 'rgba(255, 255, 255, 0.65)'
+
 export default {
   components: {
     Line
@@ -35,7 +37,9 @@ export default {
       labels: new Array(20).fill(''),
       oldValues: <any>{net: {}, dio: {}},
       options1: {
-        animation: false,
+        animation: {
+          duration: 300
+        },
         responsive: true,
         maintainAspectRatio: false,
         interaction: {
@@ -44,31 +48,52 @@ export default {
         },
         plugins: {
           tooltip: {
-            enabled: false
+            enabled: true,
+            backgroundColor: 'rgba(13, 17, 26, 0.85)',
+            titleColor: '#00F0FF',
+            bodyColor: '#ffffff',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 8,
+            cornerRadius: 8,
           },
           legend: {
               display: false,
           }
         },
         scales: {
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              display: false
+            }
+          },
           y: {
             min: 0,
             max: 100,
             grid: {
-              color: '#777777',
+              color: 'rgba(255, 255, 255, 0.05)',
+            },
+            border: {
+              dash: [4, 4]
             },
             beginAtZero: true,
             ticks: {
                 beginAtZero: true,
-                steps: 10,
-                stepValue: 5,
-                max: 100
+                color: 'rgba(255, 255, 255, 0.5)',
+                font: {
+                  size: 10
+                }
             }
           }
         }
       },
       optionsNet: {
-        animation: false,
+        animation: {
+          duration: 300
+        },
         responsive: true,
         maintainAspectRatio: false,
         interaction: {
@@ -77,21 +102,43 @@ export default {
         },
         plugins: {
           tooltip: {
-            enabled: false
+            enabled: true,
+            backgroundColor: 'rgba(13, 17, 26, 0.85)',
+            titleColor: '#00F0FF',
+            bodyColor: '#ffffff',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 8,
+            cornerRadius: 8,
           },
           legend: {
               display: false,
           }
         },
         scales: {
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              display: false
+            }
+          },
           y: {
             grid: {
-              color: '#777777',
+              color: 'rgba(255, 255, 255, 0.05)',
+            },
+            border: {
+              dash: [4, 4]
             },
             beginAtZero: true,
             ticks: {
+              color: 'rgba(255, 255, 255, 0.5)',
+              font: {
+                size: 10
+              },
               callback: (label:any, index: number) => { return parseInt(label).toString() },
-              count: 10
+              count: 6
             }
           }
         }
@@ -133,8 +180,13 @@ export default {
         datasets: [
           {
             label: '',
-            backgroundColor: 'rgba(255, 165, 0, 0.2)',
-            borderColor: 'rgba(255, 165, 0,0.8)',
+            backgroundColor: 'rgba(0, 240, 255, 0.08)',
+            borderColor: 'rgba(0, 240, 255, 0.85)',
+            borderWidth: 2,
+            pointRadius: 1.5,
+            pointHoverRadius: 4,
+            pointBackgroundColor: '#00F0FF',
+            tension: 0.45,
             fill: true,
             data: newData
           }
@@ -155,16 +207,26 @@ export default {
         labels: this.labels,
         datasets: [
           {
-            label: '',
-            backgroundColor: 'rgba(255, 165, 0, 0.2)',
-            borderColor: 'rgba(255, 165, 0,0.8)',
+            label: 'Upload',
+            backgroundColor: 'rgba(191, 90, 242, 0.05)',
+            borderColor: 'rgba(191, 90, 242, 0.8)',
+            borderWidth: 2,
+            pointRadius: 1.5,
+            pointHoverRadius: 4,
+            pointBackgroundColor: '#bf5af2',
+            tension: 0.45,
             fill: true,
             data: newData1
           },
           {
-            label: '',
-            backgroundColor: 'rgba(0, 128, 0, 0.1)',
-            borderColor: 'rgba(0, 128, 0,0.8)',
+            label: 'Download',
+            backgroundColor: 'rgba(0, 240, 255, 0.08)',
+            borderColor: 'rgba(0, 240, 255, 0.85)',
+            borderWidth: 2,
+            pointRadius: 1.5,
+            pointHoverRadius: 4,
+            pointBackgroundColor: '#00F0FF',
+            tension: 0.45,
             fill: true,
             data: newData2
           }
