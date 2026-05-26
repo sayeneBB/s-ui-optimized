@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write  # 为 OpenID Connect 添加权限
 
 env:
   NODE_VERSION: "22"
@@ -167,13 +168,13 @@ jobs:
           path: ./s-ui-linux-${{ matrix.platform }}.tar.gz
           retention-days: 1
 
-publish-linux:
-  name: 发布 Linux 产物
-  needs: build-linux
-  runs-on: ubuntu-latest
-  permissions:
-    contents: write
-  steps:
+  publish-linux:
+    name: 发布 Linux 产物
+    needs: build-linux
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 发布 Release 需要
+    steps:
       - name: 规范化发布标签
         id: vars
         run: |
@@ -199,4 +200,3 @@ publish-linux:
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
           files: release-assets/*
-          overwrite: true
