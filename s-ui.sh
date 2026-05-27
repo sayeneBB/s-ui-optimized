@@ -90,7 +90,7 @@ update() {
 }
 
 custom_version() {
-    echo "请输入面板版本（例如 v1.4.1）："
+    echo "请输入面板版本（例如 v1.0.0）："
     read panel_version
 
     if [ -z "$panel_version" ]; then

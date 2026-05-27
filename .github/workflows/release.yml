@@ -6,7 +6,7 @@ on:
       tag:
         description: "发布标签"
         required: true
-        default: "v1.4.2"
+        default: "v1.0.0"
         type: string
 
 # 关键修复：在 workflow 级别强制设置完整权限
@@ -182,7 +182,13 @@ jobs:
       contents: write
     
     steps:
-      - name: 规范化发布标签
+      # Checkout repo (needed for git tag operations)
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # fetch all tags for notes-start-tag detection
+
+      # Normalize the version tag: prepend "v" if missing
+      - name: Normalize release tag
         id: vars
         run: |
           TAG="${{ inputs.tag }}"
@@ -190,9 +196,23 @@ jobs:
             v*) echo "tag=$TAG" >> "$GITHUB_OUTPUT" ;;
             *) echo "tag=v$TAG" >> "$GITHUB_OUTPUT" ;;
           esac
-          echo "release_tag=${{ steps.vars.outputs.tag }}"
+          echo "release_tag=$TAG"
 
-      - name: 下载 Linux 构建产物
+      # Ensure the git tag exists (gh release create can auto-create it, but
+      # having it explicit avoids surprises and lets us validate the tag)
+      - name: Create git tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          TAG="${{ steps.vars.outputs.tag }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists — skipping creation"
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
+      - name: Download Linux build artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: s-ui-linux-*
@@ -205,11 +225,20 @@ jobs:
           ls -la release-assets/
           echo "文件数量：$(ls release-assets/ | wc -l)"
           
-      - name: 使用 GitHub CLI 发布 Release
+      # Use GITHUB_TOKEN (auto-available with contents:write) by default,
+      # with RELEASE_TOKEN as a fallback for custom token scenarios.
+      - name: Create or update GitHub Release
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${{ steps.vars.outputs.tag }}" \
-            --title "s-ui ${{ steps.vars.outputs.tag }}" \
-            --notes "## S-UI ${{ steps.vars.outputs.tag }}\n\n自动构建发布。" \
-            release-assets/*
+          TAG="${{ steps.vars.outputs.tag }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists — uploading additional assets"
+            gh release upload "$TAG" release-assets/* --clobber
+          else
+            gh release create "$TAG" \
+              --title "S-UI $TAG" \
+              --generate-notes \
+              --notes-start-tag "$(git tag --sort=-version:refname | grep -E '^v' | head -2 | tail -1 || true)" \
+              release-assets/*
+          fi

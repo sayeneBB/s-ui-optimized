@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/admin8800/s-ui/logger"
-	"github.com/admin8800/s-ui/util/common"
+	"github.com/sayeneBB/s-ui/logger"
+	"github.com/sayeneBB/s-ui/util/common"
 
 	"github.com/sagernet/sing-box/adapter"
 	"github.com/sagernet/sing-box/option"

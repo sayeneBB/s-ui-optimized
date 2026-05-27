@@ -1,16 +1,24 @@
 ## S-UI
 基于`SagerNet/Sing-Box`构建的高级 Web 面板
 
-**提示：原`alireza0/s-ui`项目被Github官方封禁，本仓库是基于原版的最后一个版本`v 1.4.1`的完整备份，包含完整的前端和后端源码。**
-
-**本仓库仅修改了默认语言和时区为中文，其他都对标原版无改动。你可以直接使用本仓库的脚本，也可以自行fork编译**
-
-Note: The original alireza0/s-ui project has been blocked and removed by GitHub. This repository is a complete backup based on the last version v1.4.1 of the original, containing the full front-end and back-end source code. This repository only modifies the default language and time zone to Chinese, with no other changes compared to the original. You can directly use the scripts from this repository, or fork and compile it yourself.
+S-UI is an advanced web panel for Sing-Box, offering multi-protocol proxy management, traffic routing, and system monitoring.
 
 > **免责声明：** 本项目仅供个人学习与交流使用，请勿用于非法用途。
 
+## 特性概览
+
+| 特性 | 说明 |
+|------|------|
+| **多协议支持** | VLESS、VMess、Trojan、Shadowsocks、Hysteria、Hysteria2、TUIC 等 |
+| **高级流量路由** | 可视化界面，支持 PROXY Protocol、透明代理、SSL 证书 |
+| **实时监控** | 流量统计、系统状态、在线客户端 |
+| **订阅服务** | 支持 link/json/clash + info 等多种格式 |
+| **内存优化** | 针对小内存 VPS 深度优化，长期运行无内存泄漏 |
+| **多语言界面** | 简体中文、繁体中文、英文、波斯语、越南语、俄语 |
+| **深色/浅色主题** | 支持一键切换 |
 
 ## 快速概览
+
 | 功能 | 是否支持 |
 | -------------------------------------- | :----------------: |
 | 多协议 | :heavy_check_mark: |
@@ -21,12 +29,11 @@ Note: The original alireza0/s-ui project has been blocked and removed by GitHub.
 | 订阅链接（link/json/clash + info） | :heavy_check_mark: |
 | 深色/浅色主题 | :heavy_check_mark: |
 | API 接口 | :heavy_check_mark: |
-|
 | 内存优化 | :heavy_check_mark: |
-|
-## 🚀 v1.4.2 新增：内存优化
 
-本项目已针对小内存 VPS（512MB 及以上）进行了内存优化，解决了原版长期运行后内存持续增长的问题：
+## 内存优化
+
+本项目已针对小内存 VPS（512MB 及以上）进行了内存优化，解决了长期运行后内存持续增长的问题：
 
 | 优化项 | 说明 |
 |-------|------|
@@ -43,14 +50,15 @@ Note: The original alireza0/s-ui project has been blocked and removed by GitHub.
 > ```
 
 ## 支持平台
+
 | 平台 | 架构 | 状态 |
 |----------|--------------|---------|
 | Linux | amd64, arm64, armv7, armv6, armv5, 386, s390x | 支持 |
 | Windows | amd64, 386, arm64 | 支持 |
 | macOS | amd64, arm64 | 实验性支持 |
 
-
 ## 默认安装信息
+
 - 面板端口：2095
 - 面板路径：/app/
 - 订阅端口：2096
@@ -73,7 +81,6 @@ bash <(curl -Ls https://raw.githubusercontent.com/sayeneBB/s-ui/main/install.sh)
 ## 安装旧版本
 
 **步骤 1：** 如果要安装指定旧版本，请在安装命令末尾追加带 `v` 的版本标签。例如版本 `v1.0.0`：
-
 
 ## 手动安装
 
@@ -261,5 +268,3 @@ certbot certonly --standalone --register-unsafely-without-email --non-interactiv
 ```
 
 </details>
-
-#### 鸣谢原作者：alireza0

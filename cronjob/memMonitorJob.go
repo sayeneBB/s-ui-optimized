@@ -3,7 +3,7 @@ package cronjob
 import (
 	"runtime"
 
-	"github.com/admin8800/s-ui/logger"
+	"github.com/sayeneBB/s-ui/logger"
 )
 
 type MemMonitorJob struct{}

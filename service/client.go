@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/admin8800/s-ui/database"
-	"github.com/admin8800/s-ui/database/model"
-	"github.com/admin8800/s-ui/logger"
-	"github.com/admin8800/s-ui/util"
-	"github.com/admin8800/s-ui/util/common"
+	"github.com/sayeneBB/s-ui/database"
+	"github.com/sayeneBB/s-ui/database/model"
+	"github.com/sayeneBB/s-ui/logger"
+	"github.com/sayeneBB/s-ui/util"
+	"github.com/sayeneBB/s-ui/util/common"
 
 	"gorm.io/gorm"
 )

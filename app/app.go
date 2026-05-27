@@ -3,14 +3,14 @@ package app
 import (
 	"log"
 
-	"github.com/admin8800/s-ui/config"
-	"github.com/admin8800/s-ui/core"
-	"github.com/admin8800/s-ui/cronjob"
-	"github.com/admin8800/s-ui/database"
-	"github.com/admin8800/s-ui/logger"
-	"github.com/admin8800/s-ui/service"
-	"github.com/admin8800/s-ui/sub"
-	"github.com/admin8800/s-ui/web"
+	"github.com/sayeneBB/s-ui/config"
+	"github.com/sayeneBB/s-ui/core"
+	"github.com/sayeneBB/s-ui/cronjob"
+	"github.com/sayeneBB/s-ui/database"
+	"github.com/sayeneBB/s-ui/logger"
+	"github.com/sayeneBB/s-ui/service"
+	"github.com/sayeneBB/s-ui/sub"
+	"github.com/sayeneBB/s-ui/web"
 
 	"github.com/op/go-logging"
 )

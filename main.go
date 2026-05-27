@@ -7,8 +7,8 @@ import (
 	"runtime/debug"
 	"syscall"
 
-	"github.com/admin8800/s-ui/app"
-	"github.com/admin8800/s-ui/cmd"
+	"github.com/sayeneBB/s-ui/app"
+	"github.com/sayeneBB/s-ui/cmd"
 )
 
 func runApp() {

@@ -6,7 +6,7 @@ on:
       tag:
         description: "发布标签"
         required: true
-        default: "v1.4.1"
+        default: "v1.0.0"
         type: string
 
 permissions:
@@ -140,12 +140,13 @@ jobs:
           path: release-assets
           merge-multiple: true
 
-      - name: 发布到当前仓库 Release
+      # Use GITHUB_TOKEN by default, with RELEASE_TOKEN as fallback
+      - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.vars.outputs.tag }}
           name: s-ui ${{ steps.vars.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          token: ${{ secrets.RELEASE_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
           files: release-assets/*
