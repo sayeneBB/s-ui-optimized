@@ -69,7 +69,7 @@ S-UI is an advanced web panel for Sing-Box, offering multi-protocol proxy manage
 
 ### Linux/macOS
 ```sh
-bash <(curl -Ls https://raw.githubusercontent.com/sayeneBB/s-ui/main/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/sayeneBB/s-ui-optimized/main/install.sh)
 ```
 
 ### Windows
