@@ -44,7 +44,7 @@ const cssTransformRotateValue = computed(() => {
 const gaugeColor = computed(() => {
   if (data.value.percent > 90) return 'error'
   if (data.value.percent > 70) return 'warning'
-  return 'info'
+  return 'primary'
 })
 </script>
 
@@ -67,17 +67,19 @@ const gaugeColor = computed(() => {
 .gauge__outer {
   width: 100%;
   max-width: 250px;
+  margin-top: 15px;
 }
 
 .gauge__inner {
   width: 100%;
   height: 0;
   padding-bottom: 50%;
-  background: rgb(var(--v-theme-surface));
+  background: rgba(255, 255, 255, 0.03) !important;
   position: relative;
   border-top-left-radius: 100% 200%;
   border-top-right-radius: 100% 200%;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .gauge__fill {
@@ -86,21 +88,23 @@ const gaugeColor = computed(() => {
   left: 0;
   width: inherit;
   height: 100%;
-  background: rgb(var(--v-theme-primary));
   transform-origin: center top;
   transform: rotate(0turn);
-  transition: transform 0.2s ease-out;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
 }
 
 .gauge__cover {
-  width: 75%;
-  height: 150%;
-  background: rgb(var(--v-theme-background));
+  width: 78%;
+  height: 156%;
+  background: rgba(16, 20, 32, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
   position: absolute;
-  top: 25%;
+  top: 22%;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 
   /* Text */
   display: flex;
@@ -108,12 +112,15 @@ const gaugeColor = computed(() => {
   justify-content: center;
   padding-bottom: 25%;
   box-sizing: border-box;
-  font-family: 'Lexend', sans-serif;
-  font-weight: bold;
-  font-size: 32px;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #ffffff;
 }
 
-sup {
-  font-size: 16px;
+:deep(sup) {
+  font-size: 11px;
+  opacity: 0.7;
+  vertical-align: super;
 }
 </style>

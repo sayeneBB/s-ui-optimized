@@ -32,7 +32,7 @@ export default createVuetify({
     },
   },
   theme: {
-    defaultTheme: localStorage.getItem('theme') ?? 'dark', // 默认设为超炫酷的暗黑玻璃模式
+    defaultTheme: 'dark',
     themes: {
       light: {
         colors: {

@@ -26,7 +26,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//go:embed *
+//go:embed html
 var content embed.FS
 
 type Server struct {

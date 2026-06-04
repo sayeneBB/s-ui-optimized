@@ -4,16 +4,16 @@
   <UsageStats v-model:visible="usageStatsModal.visible" />
   <v-container class="fill-height" :loading="loading">
     <v-responsive :class="reloadItems.length>0 ? 'fill-height text-center' : 'align-center'" >
-      <v-row class="d-flex align-center justify-center">
+      <v-row class="d-flex align-center justify-center logo-container">
         <v-col cols="auto">
-          <v-img src="@/assets/logo.svg" :width="reloadItems.length>0 ? 100 : 200"></v-img>
+          <v-img src="@/assets/logo.svg" :width="reloadItems.length>0 ? 100 : 200" class="logo-glow"></v-img>
         </v-col>
       </v-row>
-      <v-row class="d-flex align-center justify-center">
-        <v-col cols="auto">
+      <v-row class="d-flex align-center justify-center mb-6">
+        <v-col cols="auto" class="d-flex flex-wrap justify-center gap-3">
           <v-dialog v-model="menu" :close-on-content-click="false" transition="scale-transition" max-width="800">
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" hide-details variant="tonal" elevation="3">{{ $t('main.tiles') }} <v-icon icon="mdi-star-plus" /></v-btn>
+              <v-btn v-bind="props" hide-details class="dashboard-action-btn mr-2">{{ $t('main.tiles') }} <v-icon icon="mdi-star-plus" class="ml-1" /></v-btn>
             </template>
             <v-card rounded="xl">
               <v-card-title>
@@ -47,23 +47,20 @@
               </v-row>
             </v-card>
           </v-dialog>
-          <v-btn variant="tonal" hide-details 
-            style="margin-inline-start: 10px;" elevation="3"
-            @click="backupModal.visible = true">{{ $t('main.backup.title') }}<v-icon icon="mdi-backup-restore" />
+          <v-btn hide-details class="dashboard-action-btn mr-2"
+            @click="backupModal.visible = true">{{ $t('main.backup.title') }}<v-icon icon="mdi-backup-restore" class="ml-1" />
           </v-btn>
-          <v-btn variant="tonal" hide-details
-            style="margin-inline-start: 10px;" elevation="3"
-            @click="logModal.visible = true">{{ $t('basic.log.title') }} <v-icon icon="mdi-list-box-outline" />
+          <v-btn hide-details class="dashboard-action-btn mr-2"
+            @click="logModal.visible = true">{{ $t('basic.log.title') }} <v-icon icon="mdi-list-box-outline" class="ml-1" />
           </v-btn>
-          <v-btn variant="tonal" hide-details
-            style="margin-inline-start: 10px;" elevation="3"
-            @click="usageStatsModal.visible = true">{{ $t('main.stats.title') }} <v-icon icon="mdi-chart-box-outline" />
+          <v-btn hide-details class="dashboard-action-btn"
+            @click="usageStatsModal.visible = true">{{ $t('main.stats.title') }} <v-icon icon="mdi-chart-box-outline" class="ml-1" />
           </v-btn>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="6" md="3" v-for="i in reloadItems" :key="i">
-          <v-card class="rounded-lg" variant="outlined" height="210px" elevation="5">
+          <v-card class="glass-tile-card" height="210px">
             <v-card-title>
               {{ menuItems.flatMap(cat => cat.value).find(m => m.value == i)?.title }}
               <template v-if="i == 'i-sys'">
@@ -299,3 +296,66 @@ const restartSingbox = async () => {
   loading.value = false
 }
 </script>
+
+<style scoped>
+.logo-container {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-container:hover {
+  transform: rotate(3deg) scale(1.03);
+}
+
+.logo-glow {
+  filter: var(--logo-glow-filter);
+}
+
+.dashboard-action-btn {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  font-family: 'Outfit', 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  color: var(--text-primary) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.v-theme--light .dashboard-action-btn {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+.dashboard-action-btn:hover {
+  background: rgba(0, 240, 255, 0.08) !important;
+  border-color: var(--accent-color) !important;
+  color: var(--accent-color) !important;
+  box-shadow: var(--accent-glow) !important;
+  transform: translateY(-1px);
+}
+
+.v-theme--light .dashboard-action-btn:hover {
+  background: rgba(98, 0, 234, 0.08) !important;
+}
+
+.glass-tile-card {
+  border-radius: 16px !important;
+  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(15px) saturate(180%) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.glass-tile-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: var(--glass-border-hover) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+}
+
+:deep(.v-card-title) {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-weight: 600 !important;
+  font-size: 1.05rem !important;
+  letter-spacing: -0.01em;
+  color: var(--text-primary) !important;
+}
+</style>

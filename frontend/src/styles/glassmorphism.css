@@ -1,149 +1,247 @@
-/* s-ui 深空暗黑玻璃微光风 (Glowing Glassmorphism) 核心样式表 */
+/* s-ui Premium Glassmorphism & Neon Aura Style Guide */
 /* ======================================================================= */
 
-/* 1. 引入 Google Fonts 顶级现代科技无衬线字体 */
+/* 1. Google Fonts setup for modern visual balance */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* 2. 全局字体与平滑过渡 */
-body, .v-application {
-    font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* 2. Theme Specific Color Tokens */
+.v-application.v-theme--dark {
+  --glass-bg: rgba(13, 17, 30, 0.45);
+  --glass-drawer-bg: rgba(13, 17, 30, 0.65);
+  --glass-appbar-bg: rgba(8, 10, 18, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-border-hover: rgba(0, 240, 255, 0.35);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --glass-shadow-hover: 0 12px 40px 0 rgba(0, 240, 255, 0.18), 0 0 15px 0 rgba(0, 240, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --logo-glow-filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.55));
+  --body-bg: radial-gradient(circle at 50% 50%, #0d0f19 0%, #05060b 100%);
+  --accent-color: #00f0ff;
+  --accent-glow: 0 0 15px rgba(0, 240, 255, 0.3);
+  --orb-1-color: #00f0ff;
+  --orb-2-color: #bf5af2;
+  --orb-opacity: 0.10;
+  --orb-blend-mode: screen;
+  --nav-active-bg: linear-gradient(90deg, rgba(0, 240, 255, 0.12) 0%, rgba(191, 90, 242, 0.03) 100%);
+  --dialog-bg: rgba(10, 13, 23, 0.85);
+  --input-bg: rgba(8, 10, 18, 0.6);
+  --header-bg: rgba(18, 24, 40, 0.6);
 }
 
-/* 3. 全局暗黑主题下的滚动条美化 */
-.v-theme--dark {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.1) rgba(8, 11, 17, 0.5);
+.v-application.v-theme--light {
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-drawer-bg: rgba(255, 255, 255, 0.75);
+  --glass-appbar-bg: rgba(244, 246, 249, 0.65);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-border-hover: rgba(99, 102, 241, 0.35);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 41, 55, 0.04);
+  --glass-shadow-hover: 0 12px 40px 0 rgba(99, 102, 241, 0.12), 0 0 15px 0 rgba(99, 102, 241, 0.05);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --logo-glow-filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.35));
+  --body-bg: radial-gradient(circle at 50% 50%, #f1f5f9 0%, #e2e8f0 100%);
+  --accent-color: #4f46e5;
+  --accent-glow: 0 0 15px rgba(99, 102, 241, 0.2);
+  --orb-1-color: #818cf8;
+  --orb-2-color: #f43f5e;
+  --orb-opacity: 0.07;
+  --orb-blend-mode: multiply;
+  --nav-active-bg: linear-gradient(90deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.02) 100%);
+  --dialog-bg: rgba(255, 255, 255, 0.92);
+  --input-bg: rgba(255, 255, 255, 0.75);
+  --header-bg: rgba(0, 0, 0, 0.03);
 }
-.v-theme--dark ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+
+/* 3. Global Typography & Dynamic Backgrounds */
+body, .v-application {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--body-bg) !important;
+  color: var(--text-primary) !important;
+  transition: background 0.5s ease, color 0.3s ease;
+}
+
+/* 4. Ambient Floating Glow Orbs */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: var(--orb-opacity);
+  mix-blend-mode: var(--orb-blend-mode);
+  pointer-events: none;
+  animation: orbFloat 25s infinite alternate ease-in-out;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.glow-orb-1 {
+  width: 40vw;
+  height: 40vw;
+  background: var(--orb-1-color);
+  top: -10%;
+  left: 5%;
+}
+
+.glow-orb-2 {
+  width: 45vw;
+  height: 45vw;
+  background: var(--orb-2-color);
+  bottom: -15%;
+  right: -5%;
+  animation-delay: -8s;
+}
+
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4vw, -6vh) scale(1.1); }
+  100% { transform: translate(-3vw, 3vh) scale(0.9); }
+}
+
+/* 5. Scrollbar Optimization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02) !important;
 }
 .v-theme--dark ::-webkit-scrollbar-track {
-    background: rgba(8, 11, 17, 0.8) !important;
+  background: rgba(8, 10, 18, 0.4) !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12) !important;
+  border-radius: 10px !important;
 }
 .v-theme--dark ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-radius: 10px !important;
-    transition: background 0.3s ease;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
-.v-theme--dark ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 240, 255, 0.4) !important;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color) !important;
 }
 
-/* 4. 暗黑模式下的全局玻璃感卡片 (Glassmorphism Cards) */
-.v-theme--dark .v-card {
-    background: rgba(16, 20, 32, 0.45) !important;
-    backdrop-filter: blur(16px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
-    border-radius: 16px !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25) !important;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+/* 6. Universal Glassmorphism Cards */
+.v-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--glass-shadow) !important;
+  color: var(--text-primary) !important;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* 卡片 Hover 状态下的微光与浮动特效 */
-.v-theme--dark .v-card:hover {
-    border-color: rgba(0, 240, 255, 0.25) !important;
-    box-shadow: 0 12px 40px 0 rgba(0, 240, 255, 0.08), 0 0 12px 0 rgba(0, 240, 255, 0.04) !important;
-    transform: translateY(-3px) !important;
+.v-card:hover {
+  border-color: var(--glass-border-hover) !important;
+  box-shadow: var(--glass-shadow-hover) !important;
+  transform: translateY(-2px);
 }
 
-/* 5. 磨砂玻璃数据表格 (Glassmorphism Tables) */
-.v-theme--dark .v-table {
-    background: rgba(16, 20, 32, 0.35) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
-    border-radius: 16px !important;
-    overflow: hidden !important;
+/* 7. Frosted Glass Tables */
+.v-table {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  color: var(--text-primary) !important;
 }
-.v-theme--dark .v-table .v-table__wrapper {
-    border-radius: 16px !important;
+.v-table .v-table__wrapper {
+  border-radius: 16px !important;
 }
-.v-theme--dark .v-table th {
-    background: rgba(25, 32, 48, 0.6) !important;
-    color: rgba(0, 240, 255, 0.85) !important;
-    font-weight: 600 !important;
-    text-transform: uppercase;
-    font-size: 0.8rem !important;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+.v-table th {
+  background: var(--header-bg) !important;
+  color: var(--accent-color) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--glass-border) !important;
 }
-.v-theme--dark .v-table td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+.v-table td {
+  border-bottom: 1px solid var(--glass-border) !important;
+  color: var(--text-primary) !important;
 }
-.v-theme--dark .v-table tr:hover {
-    background: rgba(255, 255, 255, 0.02) !important;
+.v-table tr:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
 }
-
-/* 6. 高端对话框/弹窗磨砂感 */
-.v-theme--dark .v-overlay__content .v-card {
-    background: rgba(13, 17, 26, 0.85) !important;
-    backdrop-filter: blur(25px) saturate(190%) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(190%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+.v-theme--light .v-table tr:hover {
+  background: rgba(0, 0, 0, 0.02) !important;
 }
 
-/* 7. 精品输入框与按钮微发光 */
-.v-theme--dark .v-field--variant-solo-filled {
-    background: rgba(10, 13, 20, 0.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 10px !important;
-    transition: all 0.3s ease !important;
+/* 8. Overlay Modal Dialogs */
+.v-overlay__content .v-card {
+  background: var(--dialog-bg) !important;
+  backdrop-filter: blur(25px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(190%) !important;
+  border: 1px solid var(--glass-border-hover) !important;
 }
-.v-theme--dark .v-field--variant-solo-filled.v-field--focused {
-    border-color: rgba(0, 240, 255, 0.4) !important;
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.12) !important;
+
+/* 9. Forms & Control Styling */
+.v-field--variant-solo-filled {
+  background: var(--input-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 10px !important;
+  color: var(--text-primary) !important;
+  transition: all 0.3s ease !important;
+}
+.v-field--variant-solo-filled.v-field--focused {
+  border-color: var(--accent-color) !important;
+  box-shadow: var(--accent-glow) !important;
+}
+.v-field__input {
+  color: var(--text-primary) !important;
 }
 
 .v-btn {
-    text-transform: none !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.02em !important;
-    border-radius: 8px !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: 8px !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .v-btn--variant-elevated {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: var(--glass-shadow) !important;
 }
 .v-btn--variant-elevated:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 240, 255, 0.15) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--glass-shadow-hover) !important;
 }
 
-/* 8. 霓虹呼吸指示灯动画 (Pulsing Neon Indicators) */
+/* 10. Status Indicator Animations */
 @keyframes neonPulseGreen {
-    0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.5); }
-    70% { box-shadow: 0 0 0 8px rgba(0, 230, 118, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(0, 230, 118, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
 }
 @keyframes neonPulseRed {
-    0% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.5); }
-    70% { box-shadow: 0 0 0 8px rgba(255, 82, 82, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(255, 82, 82, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
 }
 
 .pulse-glow-success {
-    background-color: #00E676 !important;
-    animation: neonPulseGreen 2s infinite !important;
-    border-radius: 50%;
-    display: inline-block;
+  background-color: #00E676 !important;
+  animation: neonPulseGreen 2s infinite !important;
+  border-radius: 50%;
+  display: inline-block;
 }
 .pulse-glow-error {
-    background-color: #FF5252 !important;
-    animation: neonPulseRed 2s infinite !important;
-    border-radius: 50%;
-    display: inline-block;
+  background-color: #FF5252 !important;
+  animation: neonPulseRed 2s infinite !important;
+  border-radius: 50%;
+  display: inline-block;
 }
 
-/* 9. 状态看板高级卡片布局 */
+/* 11. Dashboard Analytics */
 .dashboard-stat-value {
-    font-size: 2.2rem !important;
-    font-weight: 700 !important;
-    background: linear-gradient(135deg, #ffffff 30%, #00F0FF 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.03em;
+  font-size: 2.2rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
 }
