@@ -373,7 +373,7 @@ export default {
     proxyDns: {
       get() :any { return this.dns?.servers?.findLast((d:any) => d.tag == "proxy-dns")?? {} },
       set(v:any) { 
-        let sIndex = this.dns.servers.findIndex((d:any) => d.tag == "proxy-dns")
+        const sIndex = this.dns.servers.findIndex((d:any) => d.tag == "proxy-dns")
         if (sIndex === -1 || sIndex == undefined) {
           this.dns.servers.push({ ...this.defaultDns.servers[0], ...v })
         } else {
@@ -472,7 +472,7 @@ export default {
       }
     },
     updateRuleSets(){
-      let tags = <string[]>[]
+      const tags = <string[]>[]
       if (this.dns?.rules?.length>0) this.dns.rules.forEach((r:any) => { if (r.rule_set) tags.push(...r.rule_set) })
       if (this.rules?.length>0) this.rules.forEach((r:any) => { if (r.rule_set) tags.push(...r.rule_set) })
       if (tags.length>0){

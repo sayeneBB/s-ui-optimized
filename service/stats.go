@@ -168,5 +168,27 @@ func (s *StatsService) GetOnlines() (onlines, error) {
 func (s *StatsService) DelOldStats(days int) error {
 	oldTime := time.Now().AddDate(0, 0, -(days)).Unix()
 	db := database.GetDB()
-	return db.Where("date_time < ?", oldTime).Delete(model.Stats{}).Error
+
+	// Delete in batches of 5,000 to prevent locking and massive WAL file growth
+	batchSize := 5000
+	for {
+		var ids []uint64
+		err := db.Model(model.Stats{}).
+			Where("date_time < ?", oldTime).
+			Limit(batchSize).
+			Pluck("id", &ids).Error
+		if err != nil {
+			return err
+		}
+		if len(ids) == 0 {
+			break
+		}
+		err = db.Where("id IN ?", ids).Delete(model.Stats{}).Error
+		if err != nil {
+			return err
+		}
+		// Yield execution slightly to allow other database queries to run
+		time.Sleep(10 * time.Millisecond)
+	}
+	return nil
 }

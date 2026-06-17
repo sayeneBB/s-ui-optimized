@@ -140,7 +140,7 @@ const modal = ref({
   id: 0,
 })
 
-let delOverlay = ref(new Array<boolean>)
+const delOverlay = ref(new Array<boolean>)
 
 const showModal = (id: number) => {
   modal.value.id = id
@@ -158,13 +158,13 @@ const delInbound = async (id: number) => {
   if (success) delOverlay.value[index] = false
 }
 
-let cloneLoading = ref(false)
+const cloneLoading = ref(false)
 
 const clone = async (id: number) => {
   cloneLoading.value = true
   const inboundArray = await Data().loadInbounds([id])
   const inbound = inboundArray[0]
-  let newTag = inbound.type + "-" + RandomUtil.randomSeq(3)
+  const newTag = inbound.type + "-" + RandomUtil.randomSeq(3)
   const newInbound = createInbound(inbound.type, { ...inbound,
     id: 0,
     tag: newTag,
