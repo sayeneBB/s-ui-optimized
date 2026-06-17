@@ -1,58 +1,66 @@
-/**
- * plugins/vuetify.ts
- *
- * Framework documentation: https://vuetifyjs.com
- */
-
-// Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles/main.css'
 
-import colors from 'vuetify/util/colors'
 import { fa, en, vi, zhHans, zhHant, ru } from 'vuetify/locale'
-
-// Composables
 import { createVuetify } from 'vuetify'
 
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   defaults: {
     VRow: { density: 'compact' },
     VTextField: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
     },
     VSelect: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
     },
     VCombobox: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
     },
     VTextarea: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
     },
+    VBtn: {
+      rounded: 'lg',
+      elevation: 0,
+    },
+    VCard: {
+      rounded: 'lg',
+      elevation: 0,
+    }
   },
   theme: {
-    defaultTheme: localStorage.getItem('theme') ?? 'dark', // 默认设为超炫酷的暗黑玻璃模式
+    defaultTheme: localStorage.getItem('theme') ?? 'dark',
     themes: {
       light: {
+        dark: false,
         colors: {
-          primary: '#00B0FF',
-          background: '#F4F6F9',
+          primary: '#18181B', // Slate-900
+          secondary: '#71717A',
+          background: '#FAFAFA', // Slate-50
           surface: '#FFFFFF',
-          error: '#FF5252',
+          error: '#DC2626',
+          warning: '#D97706',
+          success: '#16A34A',
+          info: '#2563EB',
+          border: '#E4E4E7', // Slate-200
         },
       },
       dark: {
         dark: true,
         colors: {
-          primary: '#00F0FF',     // 激光霓虹蓝 (Neon Cyan)
-          secondary: '#bf5af2',   // 激光霓虹紫 (Laser Purple)
-          background: '#080b11',  // 深空底色 (Deep Slate Black)
-          surface: '#101420',     // 玻璃卡片底板 (Translucent Glass Slate)
-          success: '#00E676',     // 呼吸状态绿
-          warning: '#FF9100',     // 呼吸警示橙
-          error: '#FF5252',       // 报错珊瑚红
-          info: '#00B0FF',        // 天空蔚蓝
+          primary: '#FAFAFA', // Slate-50
+          secondary: '#A1A1AA',
+          background: '#09090B', // Slate-950
+          surface: '#18181B', // Slate-900
+          error: '#EF4444',
+          warning: '#F59E0B',
+          success: '#22C55E',
+          info: '#3B82F6',
+          border: '#27272A', // Slate-800
         },
       },
     },
