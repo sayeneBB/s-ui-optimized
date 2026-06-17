@@ -47,12 +47,6 @@ const themeColors = computed(() => {
   }
 })
 
-// Watch font settings and update chart base config
-watch(themeColors, (colors) => {
-  ChartJS.defaults.font.family = 'Inter, system-ui, sans-serif'
-  ChartJS.defaults.color = colors.text
-}, { immediate: true })
-
 const baseOptions = computed(() => {
   const colors = themeColors.value
   return {
@@ -69,6 +63,8 @@ const baseOptions = computed(() => {
         backgroundColor: theme.global.current.value.dark ? '#18181B' : '#FFFFFF',
         titleColor: theme.global.current.value.dark ? '#FAFAFA' : '#09090B',
         bodyColor: theme.global.current.value.dark ? '#A1A1AA' : '#71717A',
+        titleFont: { family: 'Inter, system-ui, sans-serif', weight: 'bold' },
+        bodyFont: { family: 'Inter, system-ui, sans-serif' },
         borderColor: colors.grid,
         borderWidth: 1,
         padding: 8,
@@ -79,7 +75,10 @@ const baseOptions = computed(() => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { display: false }
+        ticks: {
+          display: false,
+          font: { family: 'Inter, system-ui, sans-serif' }
+        }
       },
       y: {
         grid: { color: colors.grid },
@@ -104,9 +103,9 @@ const chartOptions = computed(() => {
       if (label) label += ': '
       if (context.parsed.y !== null) {
         if (props.type === 'h-net' || props.type === 'h-dio') {
-          label += HumanReadable.sizeFormat(context.parsed.y, 1) + '/s'
+          label += (context.parsed.y === 0 ? '0 B' : HumanReadable.sizeFormat(context.parsed.y, 1)) + '/s'
         } else if (props.type === 'hp-net') {
-          label += HumanReadable.packetFormat(context.parsed.y, 1) + '/s'
+          label += (context.parsed.y === 0 ? '0 p' : HumanReadable.packetFormat(context.parsed.y, 1)) + '/s'
         } else {
           label += context.parsed.y.toFixed(1) + '%'
         }
@@ -193,34 +192,36 @@ watch(() => props.tilesData, (v: any) => {
   if (!v) return
   switch (props.type) {
     case 'h-cpu':
-      updateData1(v.cpu)
+      if (v.cpu !== undefined) updateData1(v.cpu)
       break
     case 'h-mem':
-      updateData1(v.mem.current * 100 / v.mem.total)
+      if (v.mem && v.mem.current !== undefined && v.mem.total) {
+        updateData1(v.mem.current * 100 / v.mem.total)
+      }
       break
     case 'h-net':
-      if (oldValues.value.net.sent !== undefined) {
+      if (v.net && oldValues.value.net && oldValues.value.net.sent !== undefined) {
         const downSpeed = (v.net.recv - oldValues.value.net.recv) / 2
         const upSpeed = (v.net.sent - oldValues.value.net.sent) / 2
         updateData2(upSpeed, downSpeed)
       }
-      oldValues.value.net = v.net
+      if (v.net) oldValues.value.net = v.net
       break
     case 'hp-net':
-      if (oldValues.value.net.psent !== undefined) {
+      if (v.net && oldValues.value.net && oldValues.value.net.psent !== undefined) {
         const downSpeed = (v.net.precv - oldValues.value.net.precv) / 2
         const upSpeed = (v.net.psent - oldValues.value.net.psent) / 2
         updateData2(upSpeed, downSpeed)
       }
-      oldValues.value.net = v.net
+      if (v.net) oldValues.value.net = v.net
       break
     case 'h-dio':
-      if (oldValues.value.dio.read !== undefined) {
+      if (v.dio && oldValues.value.dio && oldValues.value.dio.read !== undefined) {
         const downSpeed = (v.dio.read - oldValues.value.dio.read) / 2
         const upSpeed = (v.dio.write - oldValues.value.dio.write) / 2
         updateData2(upSpeed, downSpeed)
       }
-      oldValues.value.dio = v.dio
+      if (v.dio) oldValues.value.dio = v.dio
       break
   }
 }, { deep: true })
