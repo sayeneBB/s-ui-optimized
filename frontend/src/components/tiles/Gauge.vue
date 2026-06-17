@@ -30,90 +30,59 @@ const gaugeData = (d:any) :any => {
   if (curr[1] == total[1]) curr[1] = ''
   return {
     percent: Math.ceil(d.current*100/d.total),
-    text: curr[0] + "<sup>" + (curr[1]?? ' ') + "</sup>/" +  total[0] + "<sup>" + (total[1]?? '') + "</sup>"
+    text: curr[0] + (curr[1]?? ' ') + " / " +  total[0] + (total[1]?? '')
   }
 }
-
-const cssTransformRotateValue = computed(() => {
-  const percentageAsFraction = data.value.percent / 100
-  const halfPercentage = percentageAsFraction / 2
-
-  return `${halfPercentage}turn`
-})
 
 const gaugeColor = computed(() => {
   if (data.value.percent > 90) return 'error'
   if (data.value.percent > 70) return 'warning'
-  return 'info'
+  return 'primary'
 })
 </script>
 
 <template>
-  <div class="gauge__outer">
-    <div class="gauge__inner">
-      <div
-        class="gauge__fill" 
-        :style="{ 
-          transform: `rotate(${cssTransformRotateValue})`,
-          background: `rgb(var(--v-theme-${gaugeColor}))`
-          }">
-      </div>
-      <div class="gauge__cover"><span dir="ltr" v-html="data.text"></span></div>
+  <div class="linear-gauge py-4 px-2 w-100">
+    <div class="d-flex justify-space-between align-center mb-3">
+      <span class="text-caption text-secondary uppercase-label">Usage Status</span>
+      <span class="text-body-1 font-weight-bold mono-text text-primary" v-html="data.text"></span>
+    </div>
+    <v-progress-linear
+      :model-value="data.percent"
+      :color="gaugeColor"
+      height="8"
+      rounded
+      class="bg-track-border"
+    ></v-progress-linear>
+    <div class="d-flex justify-space-between mt-2 text-caption text-secondary mono-text">
+      <span>{{ data.percent }}%</span>
+      <span>100%</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-.gauge__outer {
-  width: 100%;
-  max-width: 250px;
-}
-
-.gauge__inner {
-  width: 100%;
-  height: 0;
-  padding-bottom: 50%;
-  background: rgb(var(--v-theme-surface));
-  position: relative;
-  border-top-left-radius: 100% 200%;
-  border-top-right-radius: 100% 200%;
-  overflow: hidden;
-}
-
-.gauge__fill {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: inherit;
-  height: 100%;
-  background: rgb(var(--v-theme-primary));
-  transform-origin: center top;
-  transform: rotate(0turn);
-  transition: transform 0.2s ease-out;
-}
-
-.gauge__cover {
-  width: 75%;
-  height: 150%;
-  background: rgb(var(--v-theme-background));
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-
-  /* Text */
+.linear-gauge {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding-bottom: 25%;
-  box-sizing: border-box;
-  font-family: 'Lexend', sans-serif;
-  font-weight: bold;
-  font-size: 32px;
+  height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-sup {
-  font-size: 16px;
+.uppercase-label {
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.mono-text {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  font-size: 0.9rem !important;
+}
+
+.bg-track-border {
+  background-color: rgba(var(--v-theme-secondary), 0.12) !important;
 }
 </style>
