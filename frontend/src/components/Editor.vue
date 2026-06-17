@@ -61,10 +61,10 @@ export default {
       return this.content?.split('\n').length
     },
     borderColor() {
-      return this.theme.current.value.colors.border || this.theme.current.value.colors.primary
+      return this.theme.current.colors.border || this.theme.current.colors.primary
     },
     surfaceColor() {
-      return this.theme.current.value.colors.surface
+      return this.theme.current.colors.surface
     }
   },
   methods: {
