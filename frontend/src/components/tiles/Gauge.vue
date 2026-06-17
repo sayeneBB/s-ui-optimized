@@ -24,13 +24,18 @@ const data = computed(() => {
 })
 
 const gaugeData = (d:any) :any => {
-  if (!d) return { percent: 0, text: '-' }
+  if (!d || !d.total || d.total === 0) return { percent: 0, text: '-' }
   const curr = HumanReadable.sizeFormat(d.current,0).split(' ')
   const total = HumanReadable.sizeFormat(d.total,0).split(' ')
   if (curr[1] == total[1]) curr[1] = ''
+  
+  // Clean unit spacing
+  const currentFormatted = curr[0] + (curr[1] ? ' ' + curr[1] : '')
+  const totalFormatted = total[0] + (total[1] ? ' ' + total[1] : '')
+  
   return {
     percent: Math.ceil(d.current*100/d.total),
-    text: curr[0] + (curr[1]?? ' ') + " / " +  total[0] + (total[1]?? '')
+    text: `${currentFormatted} / ${totalFormatted}`
   }
 }
 
@@ -44,8 +49,8 @@ const gaugeColor = computed(() => {
 <template>
   <div class="linear-gauge py-4 px-2 w-100">
     <div class="d-flex justify-space-between align-center mb-3">
-      <span class="text-caption text-secondary uppercase-label">Usage Status</span>
-      <span class="text-body-1 font-weight-bold mono-text text-primary" v-html="data.text"></span>
+      <span class="text-caption text-secondary uppercase-label">{{ type ? $t('main.gauge.' + type.split('-')[1]) : '' }}</span>
+      <span class="text-body-1 font-weight-bold mono-text text-primary">{{ data.text }}</span>
     </div>
     <v-progress-linear
       :model-value="data.percent"
