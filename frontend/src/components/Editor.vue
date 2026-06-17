@@ -59,6 +59,12 @@ export default {
   computed: {
     lineCount() {
       return this.content?.split('\n').length
+    },
+    borderColor() {
+      return this.theme.current.value.colors.border || this.theme.current.value.colors.primary
+    },
+    surfaceColor() {
+      return this.theme.current.value.colors.surface
     }
   },
   methods: {
@@ -90,7 +96,7 @@ export default {
 .code-editor {
   direction: ltr !important;
   display: flex;
-  border: 1px solid v-bind('theme.current.colors["outline"]');
+  border: 1px solid v-bind('borderColor');
   border-radius: 4px;
   overflow: hidden;
   font-size: 14px; /* Consistent font size */
@@ -98,7 +104,7 @@ export default {
 
 .line-numbers {
   width: 40px;
-  background: v-bind('theme.current.colors["surface"]');
+  background: v-bind('surfaceColor');
   text-align: right;
   padding: 12px 8px 12px 4px; /* Match textarea padding */
   line-height: 1.5; /* Match textarea line height */

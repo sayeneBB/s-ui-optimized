@@ -4,6 +4,15 @@ import 'vuetify/styles/main.css'
 import { fa, en, vi, zhHans, zhHant, ru } from 'vuetify/locale'
 import { createVuetify } from 'vuetify'
 
+const getDefaultTheme = () => {
+  if (typeof window === 'undefined') return 'dark'
+  const t = localStorage.getItem('theme') ?? 'dark'
+  if (t === 'system') {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  }
+  return t
+}
+
 export default createVuetify({
   defaults: {
     VRow: { density: 'compact' },
@@ -33,7 +42,7 @@ export default createVuetify({
     }
   },
   theme: {
-    defaultTheme: localStorage.getItem('theme') ?? 'dark',
+    defaultTheme: getDefaultTheme(),
     themes: {
       light: {
         dark: false,
