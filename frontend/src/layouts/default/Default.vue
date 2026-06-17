@@ -1,5 +1,7 @@
 <template>
   <v-app style="overflow: auto;">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
     <drawer :isMobile="isMobile" :displayDrawer="displayDrawer" @toggleDrawer="toggleDrawer" />
     <default-bar :isMobile="isMobile" @toggleDrawer="toggleDrawer" />
     <default-view />
