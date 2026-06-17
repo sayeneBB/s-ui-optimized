@@ -29,8 +29,10 @@ const isMobile = computed( ():boolean =>{
 <style>
 .v-card-subtitle {
   text-align: center;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgb(var(--v-theme-border)) !important;
   min-height: 20px;
+  font-size: 0.8rem;
+  color: rgb(var(--v-theme-secondary));
 }
 .v-switch.v-input {
   padding-inline-start: .6rem;

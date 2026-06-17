@@ -92,36 +92,33 @@ const isActiveTheme = (th: string) => {
 
 <style scoped>
 .glass-app-bar {
-  background: rgba(8, 11, 17, 0.4) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: rgb(var(--v-theme-surface)) !important;
+  border-bottom: 1px solid rgb(var(--v-theme-border)) !important;
 }
 
 .app-bar-title {
-  font-family: 'Outfit', 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600 !important;
-  font-size: 1.15rem !important;
+  font-size: 1.05rem !important;
   letter-spacing: -0.01em;
-  color: #ffffff;
 }
 
 .action-btn {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  transition: all 0.3s ease !important;
+  background: transparent !important;
+  border: 1px solid rgb(var(--v-theme-border)) !important;
+  color: rgb(var(--v-theme-secondary)) !important;
+  transition: all 0.2s ease !important;
 }
 
 .action-btn:hover {
-  background: rgba(0, 240, 255, 0.08) !important;
-  border-color: rgba(0, 240, 255, 0.25) !important;
-  color: #00F0FF !important;
+  background: rgb(var(--v-theme-border)) !important;
+  color: rgb(var(--v-theme-primary)) !important;
 }
 
 .menu-list {
-  background: rgba(16, 20, 32, 0.9) !important;
-  backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 12px !important;
+  background: rgb(var(--v-theme-surface)) !important;
+  border: 1px solid rgb(var(--v-theme-border)) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
 }
 </style>
