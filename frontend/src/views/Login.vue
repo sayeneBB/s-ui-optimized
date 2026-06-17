@@ -1,16 +1,14 @@
 <template>
   <div class="login-bg">
-    <div class="glow-orb glow-orb-1"></div>
-    <div class="glow-orb glow-orb-2"></div>
     <v-container class="fill-height justify-center align-center">
       <v-row justify="center" align="center" style="width: 100%;">
         <v-col cols="12" sm="8" md="5" lg="4">
-          <v-card class="login-card" elevation="0">
+          <v-card class="login-card">
             <div class="login-logo-container text-center mb-6">
-              <v-img src="@/assets/logo.svg" width="80" class="mx-auto logo-glow"></v-img>
+              <v-img src="@/assets/logo.svg" width="64" class="mx-auto"></v-img>
             </div>
             <div class="login-title mb-6" v-text="$t('login.title')"></div>
-            <v-card-text>
+            <v-card-text class="pa-0">
               <v-form @submit.prevent="login" ref="form">
                 <v-text-field 
                   v-model="username" 
@@ -18,7 +16,7 @@
                   :rules="usernameRules" 
                   required
                   prepend-inner-icon="mdi-account"
-                  class="custom-field mb-4"
+                  class="mb-4"
                   hide-details="auto"
                 ></v-text-field>
                 <v-text-field 
@@ -28,7 +26,7 @@
                   type="password" 
                   required
                   prepend-inner-icon="mdi-lock"
-                  class="custom-field mb-6"
+                  class="mb-6"
                   hide-details="auto"
                 ></v-text-field>
                 <v-btn 
@@ -45,7 +43,7 @@
                 <v-select
                   density="compact"
                   hide-details
-                  variant="solo-filled"
+                  variant="outlined"
                   :items="languages"
                   v-model="$i18n.locale"
                   @update:modelValue="changeLocale"
@@ -55,7 +53,7 @@
                 
                 <v-menu>
                   <template v-slot:activator="{ props }">
-                    <v-btn icon v-bind="props" variant="tonal" color="primary" class="theme-toggle-btn">
+                    <v-btn icon v-bind="props" variant="outlined" color="secondary" class="theme-toggle-btn">
                       <v-icon>mdi-theme-light-dark</v-icon>
                     </v-btn>
                   </template>
@@ -153,115 +151,45 @@ const isActiveTheme = (th: string) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 50%, #0d111a 0%, #080b11 100%);
+  background: rgb(var(--v-theme-background));
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-.glow-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.15;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  animation: orbFloat 20s infinite alternate ease-in-out;
-}
-
-.glow-orb-1 {
-  width: 450px;
-  height: 450px;
-  background: #00f0ff;
-  top: -10%;
-  left: 10%;
-}
-
-.glow-orb-2 {
-  width: 550px;
-  height: 550px;
-  background: #bf5af2;
-  bottom: -15%;
-  right: 5%;
-  animation-delay: -7s;
-}
-
-@keyframes orbFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(60px, -80px) scale(1.15); }
-  100% { transform: translate(-40px, 40px) scale(0.9); }
-}
-
 .login-card {
-  background: rgba(16, 20, 32, 0.4) !important;
-  backdrop-filter: blur(30px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 0 25px rgba(0, 240, 255, 0.05) !important;
-  border-radius: 28px !important;
-  padding: 36px 28px;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.login-card:hover {
-  border-color: rgba(0, 240, 255, 0.35) !important;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 35px rgba(0, 240, 255, 0.18) !important;
-  transform: translateY(-4px) !important;
-}
-
-.logo-glow {
-  filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.55));
+  background: rgb(var(--v-theme-surface)) !important;
+  border: 1px solid rgb(var(--v-theme-border)) !important;
+  border-radius: 8px !important;
+  padding: 32px 24px;
+  box-shadow: none !important;
 }
 
 .login-title {
-  font-family: 'Outfit', 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 700 !important;
-  background: linear-gradient(135deg, #ffffff 40%, #00F0FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: rgb(var(--v-theme-primary));
   text-align: center;
-  font-size: 1.9rem !important;
-  letter-spacing: -0.03em;
-}
-
-.custom-field :deep(.v-field) {
-  border-radius: 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  background: rgba(10, 14, 22, 0.55) !important;
-  transition: all 0.3s ease !important;
-}
-
-.custom-field :deep(.v-field--focused) {
-  border-color: rgba(0, 240, 255, 0.5) !important;
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.15) !important;
+  font-size: 1.6rem !important;
+  letter-spacing: -0.02em;
 }
 
 .login-btn {
-  border-radius: 12px !important;
+  border-radius: 6px !important;
   font-weight: 600 !important;
-  font-size: 1.05rem !important;
-  background: linear-gradient(135deg, #00f0ff 0%, #0072ff 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.25) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.login-btn:hover {
-  box-shadow: 0 8px 25px rgba(0, 240, 255, 0.45) !important;
-  transform: translateY(-2px) !important;
+  font-size: 0.95rem !important;
+  height: 44px !important;
+  text-transform: none !important;
 }
 
 .theme-toggle-btn {
-  background: rgba(0, 240, 255, 0.08) !important;
-  border: 1px solid rgba(0, 240, 255, 0.15) !important;
+  border-color: rgb(var(--v-theme-border)) !important;
 }
 
 .theme-list {
-  background: rgba(16, 20, 32, 0.9) !important;
-  backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 12px !important;
+  background: rgb(var(--v-theme-surface)) !important;
+  border: 1px solid rgb(var(--v-theme-border)) !important;
+  border-radius: 8px !important;
 }
 </style>
